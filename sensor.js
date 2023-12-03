@@ -27,24 +27,23 @@ class Sensor {
         roadBorders[i][0],
         roadBorders[i][1]
       );
-
-      for (let i = 0; i < traffic.length; i++) {
-        const poly = traffic[i].polygon;
-        for (let j = 0; j < poly.length; j++) {
-          const value = getIntersection(
-            ray[0],
-            ray[1],
-            poly[j],
-            poly[(j + 1) % poly.length]
-          );
-          if (value) {
-            touches.push(value);
-          }
-        }
-      }
-
       if (touch) {
         touches.push(touch);
+      }
+    }
+
+    for (let i = 0; i < traffic.length; i++) {
+      const poly = traffic[i].polygon;
+      for (let j = 0; j < poly.length; j++) {
+        const value = getIntersection(
+          ray[0],
+          ray[1],
+          poly[j],
+          poly[(j + 1) % poly.length]
+        );
+        if (value) {
+          touches.push(value);
+        }
       }
     }
 
@@ -53,7 +52,7 @@ class Sensor {
     } else {
       const offsets = touches.map((e) => e.offset);
       const minOffset = Math.min(...offsets);
-      return touches.find((e) => (e.offset = minOffset));
+      return touches.find((e) => e.offset == minOffset);
     }
   }
 
