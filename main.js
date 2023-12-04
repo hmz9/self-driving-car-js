@@ -41,7 +41,7 @@ for (let i = 0; i < cars.length; i++) {
     cars[i].brain = getSampleBrain();
   }
   if (i != 0) {
-    NeuralNetwork.mutate(cars[i].brain, 0.1);
+    NeuralNetwork.mutate(cars[i].brain, 0.2);
   }
 }
 
