@@ -10,7 +10,7 @@ const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 
 let N = 1;
 if (localStorage.getItem("trainModel")) {
-  N = 300;
+  N = 150;
 }
 const cars = generateCars(N);
 let bestCar = cars[0];
