@@ -6,12 +6,15 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <p>Made by <a href="https://ameer.live">Ameer Hamza</a></p>
     <canvas id="carCanvas"></canvas>
     <div id="verticalButtons">
-      <button onclick="save()">💾</button>
-      <button onclick="discard()">🗑️</button>
+      <button onclick="loadPreTrainedBrain()">Load Pre Trained Model</button>
+      <button onclick="save()">Save Model</button>
+      <button onclick="discard()">Train new Model</button>
     </div>
     <canvas id="networkCanvas"></canvas>
+    <script src="sampleBrain.js"></script>
     <script src="visualizer.js"></script>
     <script src="network.js"></script>
     <script src="sensor.js"></script>

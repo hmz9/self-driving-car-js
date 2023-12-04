@@ -8,21 +8,46 @@ const networkCtx = networkCanvas.getContext("2d");
 
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 
-const N = 200;
+let N = 1;
+if (localStorage.getItem("trainModel")) {
+  N = 300;
+}
 const cars = generateCars(N);
 let bestCar = cars[0];
-if (localStorage.getItem("bestBrain")) {
-  for (let i = 0; i < cars.length; i++) {
+// if (localStorage.getItem("bestBrain")) {
+//   for (let i = 0; i < cars.length; i++) {
+//     cars[i].brain = JSON.parse(localStorage.getItem("bestBrain"));
+//     if (i != 0) {
+//       NeuralNetwork.mutate(cars[i].brain, 0.1);
+//     }
+//   }
+//   console.log(cars[0]);
+// } else if(localStorage.getItem("loadSampleBrain")) {
+//   for (let i = 0; i < cars.length; i++) {
+//     cars[i].brain = getSampleBrain();
+//     if (i != 0) {
+//       NeuralNetwork.mutate(cars[i].brain, 0.1);
+//     }
+//   }
+//   console.log(cars[0]);
+// }
+// else{
+
+// }
+for (let i = 0; i < cars.length; i++) {
+  if (localStorage.getItem("bestBrain")) {
     cars[i].brain = JSON.parse(localStorage.getItem("bestBrain"));
-    if (i != 0) {
-      NeuralNetwork.mutate(cars[i].brain, 0.1);
-    }
+  } else if (localStorage.getItem("loadSampleBrain")) {
+    cars[i].brain = getSampleBrain();
+  }
+  if (i != 0) {
+    NeuralNetwork.mutate(cars[i].brain, 0.1);
   }
 }
 
 const traffic = [
   new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2, getRandomColor()),
-  new Car(road.getLaneCenter(0), -300, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(1), -300, 30, 50, "DUMMY", 2, getRandomColor()),
   new Car(road.getLaneCenter(2), -300, 30, 50, "DUMMY", 2, getRandomColor()),
   new Car(road.getLaneCenter(0), -500, 30, 50, "DUMMY", 2, getRandomColor()),
   new Car(road.getLaneCenter(1), -500, 30, 50, "DUMMY", 2, getRandomColor()),
@@ -32,16 +57,38 @@ const traffic = [
   new Car(road.getLaneCenter(0), -900, 30, 50, "DUMMY", 2, getRandomColor()),
   new Car(road.getLaneCenter(0), -980, 30, 50, "DUMMY", 2, getRandomColor()),
   new Car(road.getLaneCenter(1), -1050, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(0), -1550, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(1), -1550, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(2), -1850, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(1), -2000, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(1), -2130, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(2), -2250, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(0), -2400, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(1), -2600, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(1), -2800, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(2), -2800, 30, 50, "DUMMY", 2, getRandomColor()),
 ];
 
 animate();
 
 function save() {
+  localStorage.removeItem("loadSampleBrain");
   localStorage.setItem("bestBrain", JSON.stringify(bestCar.brain));
+  location.reload();
 }
 
 function discard() {
+  localStorage.setItem("trainModel", "true");
+  localStorage.removeItem("loadSampleBrain");
   localStorage.removeItem("bestBrain");
+  location.reload();
+}
+
+function loadPreTrainedBrain() {
+  localStorage.removeItem("trainModel");
+  localStorage.removeItem("bestBrain");
+  localStorage.setItem("loadSampleBrain", "true");
+  location.reload();
 }
 
 function generateCars(N) {
