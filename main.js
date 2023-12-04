@@ -74,7 +74,6 @@ animate();
 function save() {
   localStorage.removeItem("loadSampleBrain");
   localStorage.setItem("bestBrain", JSON.stringify(bestCar.brain));
-  location.reload();
 }
 
 function discard() {
